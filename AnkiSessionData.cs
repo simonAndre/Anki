@@ -8,9 +8,13 @@ namespace Anki
     {
         public AnkiSessionData()
         {
-            CardsShelving = new List<(int, int)>();
+            CardsShelving = new Dictionary<string, Box>();
         }
-        public int Day { get; set; } = 0;
-        public List<(int card, int box)> CardsShelving { get; set; }
+        public int Day { get; set; } = 1;
+
+        /// <summary>
+        /// card shelving are stored using the card question as a key
+        /// </summary>
+        public Dictionary<string , Box> CardsShelving { get; set; }
     }
 }

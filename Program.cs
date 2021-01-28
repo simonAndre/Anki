@@ -6,7 +6,12 @@ namespace Anki
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("ANKI");
+            do
+            {
+                AnkiGame game = new AnkiGame();
+
+                game.Play();
+            } while (true);
         }
     }
 }
