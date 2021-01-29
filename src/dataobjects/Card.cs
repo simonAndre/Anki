@@ -33,6 +33,11 @@ namespace Anki.dataobjects
         {
             return this.Question == (obj as Card)?.Question;
         }
+
+        public override int GetHashCode()
+        {
+            return Question.GetHashCode();
+        }
     }
 
 }

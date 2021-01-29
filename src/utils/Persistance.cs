@@ -8,14 +8,15 @@ namespace Anki.utils
 {
     public class Persistance<T>
     {
-        private const string _persistedSession_filename = "session.json";
+        private string _persistedSession_filename;
         private string _deck_filename = string.Empty;
         private string _workingDir= string.Empty;
 
-        public Persistance(string deck_filename = "deck.txt", string workingdirectory=null)
+        public Persistance(string deckFilename, string workingDirectory,string persistedSessionFileName="session.json")
         {
-            _deck_filename = deck_filename;
-            _workingDir = workingdirectory ?? Environment.CurrentDirectory;
+            _deck_filename = deckFilename;
+            _workingDir = workingDirectory;
+            _persistedSession_filename = persistedSessionFileName;
         }
 
         private string SessionFile => Path.Combine(_workingDir, _persistedSession_filename);

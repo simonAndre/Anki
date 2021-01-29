@@ -1,0 +1,1 @@
+docker run -it -e ANKI_DATASTORE=/app/datastore -v ./datastore/:/app/datastore/ anki

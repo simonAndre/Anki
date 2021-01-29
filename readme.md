@@ -1,18 +1,42 @@
 # Anki
 
-## Execution models
+## My implementation
 
-### with docker
+focused on the algorithm and code, I choosed a console application rendering based on dotnet core. 
+Can work on most platforms. 
+A docker-file is provided for ubiquitous build and runs. 
+
+### Execution models
+
+#### option 1 : through docker
 
 + prerequesites : docker engine
-+ run `./anki_docker.sh`
 
-### directly with dotnet core
++ build
+  + on linux `./docker_build.sh`
+  + on windows `docker_build.bat`
 
-+ prerequesites:
-	+ [get de dotnetcore runtime 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
++ run
+  + on linux `./docker_run.sh`
+  + on windows `docker_run.bat`
 
-+ run the console app
+#### option 2 : direct execution with the dotnet core SDK
+
++ prerequesites: [get de dotnetcore SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+
++ build app : `./dotnet build`
++ run the console app : `./dotnet run`
+
+### Runtime instructions
+
++ the sample deck file is at this location : `./datastore/deck.txt` it can be refilled. One card per line, separator for question/answer is '|'
+
++ Each run of the program make a progress in the sessions day per day.
+
++ last session data are loaded from the file `./datastore/session.json`. This file can be deleted on the first screen hitting the [x] key, In this case, a fresh new deck will be reload from the deck file.
+
++ Other playing instructions are given by the program.
+
 
 
 
