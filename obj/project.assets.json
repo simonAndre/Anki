@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\sources\\PrivateRepo\\anki2\\Anki\\Anki.csproj",
+      "projectUniqueName": "C:\\sources\\PrivateRepo\\Anki\\Anki.csproj",
       "projectName": "Anki",
-      "projectPath": "C:\\sources\\PrivateRepo\\anki2\\Anki\\Anki.csproj",
+      "projectPath": "C:\\sources\\PrivateRepo\\Anki\\Anki.csproj",
       "packagesPath": "C:\\Users\\simonandre\\.nuget\\packages\\",
-      "outputPath": "C:\\sources\\PrivateRepo\\anki2\\Anki\\obj\\",
+      "outputPath": "C:\\sources\\PrivateRepo\\Anki\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

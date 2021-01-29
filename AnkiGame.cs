@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using Anki.dataobjects;
+using Anki.utils;
+using System;
 
 namespace Anki
 {
@@ -22,7 +21,6 @@ namespace Anki
         {
             try
             {
-
                 //first, loads the deck from disc
                 var deck = _persistance.LoadDeck();
                 //load the session data from disc (if any)
@@ -30,11 +28,23 @@ namespace Anki
 
                 _session = new AnkiSession(deck, sessiondata);
 
-
                 Helpers.ClearDisplay();
-                Helpers.Display($"Hi, welcome to your Anki session for the day #{_session.CurrentDay}");
-                Helpers.Newline();
-                Helpers.Newline();
+                Helpers.Display(new String('-', 30));
+                Helpers.Display("Hi, welcome to the ANKI learning game");
+                Helpers.Display(new String('-', 30));
+                Helpers.Newline(2);
+                if (_session.CurrentDay == 1)
+                {
+                    Helpers.Display("this your first session");
+                }
+                else
+                {
+                    DisplayBoxes("Last session review", true);
+                    Helpers.Display($"Be prepared for the session of the day #{_session.CurrentDay}");
+
+                }
+                Helpers.Newline(2);
+
 
                 if (sessiondata == null)
                 {
@@ -54,7 +64,7 @@ namespace Anki
 
                 StartSessionQuizz();
 
-                bool result=EndSessionQuizz();
+                bool result = EndSessionQuizz();
 
                 if (result)
                 {
@@ -81,17 +91,28 @@ namespace Anki
         /// </summary>
         public void StartSessionQuizz()
         {
-            DisplayBoxes();
-            Helpers.Pause($"Start the session of day {_session.CurrentDay}");
-
-            foreach (var card in _session.GetCardsToStudy())
+            foreach (var (card, frombox) in _session.CardsToStudyIterator())
             {
-                DisplayBoxes();
-                Helpers.Display($"Card study, the question is :");
+                DisplayBoxes("Flashcards studying session");
+                if (frombox.HasValue)
+                {
+                    var lastcolor=Console.ForegroundColor;
+                    Console.Write("Card taken from the ");
+                    Console.ForegroundColor =Helpers.BoxColor(frombox.Value);
+                    Console.Write($"{frombox} box");
+                    Console.ForegroundColor = lastcolor;
+                    Console.WriteLine(", the question is :");
+                }
+                else
+                {
+                    Helpers.Display($"New card to study, the question is :");
+                }
                 Helpers.Display(card.Question, ConsoleColor.Cyan);
+                Helpers.Newline();
                 Helpers.Pause("for the answer");
 
                 Helpers.Display($"Answer: {card.Answer}", ConsoleColor.DarkBlue);
+                Helpers.Newline();
                 Helpers.Display("Please rank this card in a box according to your knowledge for this question : geen box=1, orange box=2, red box=3)");
                 var newbox = Helpers.ReadBoxKey();
                 _session.ShelveCard(card, newbox);
@@ -104,38 +125,52 @@ namespace Anki
         /// </summary>
         public bool EndSessionQuizz()
         {
-            DisplayBoxes();
+            DisplayBoxes("End of the session");
+            bool endOfGame = false;
 
             if (_session.GlobalSuccess())
             {
                 Helpers.Display($"Congratulations, you have learned all the {_session.DeckSize} cards in {_session.CurrentDay} days", ConsoleColor.Green);
-                return true;
+                endOfGame= true;
             }
             else
             {
                 Helpers.Display("We are going to reorder the cards for the next session");
                 Helpers.Pause("to reorder.");
                 _session.ReorderCards();
-                DisplayBoxes();
-                Helpers.Display($"End of the study session for today, sleep well!");
+                DisplayBoxes("Reordering stage");
+                Helpers.Display($"End of the study session for today, sleep well !");
+                Helpers.Display($"To play session for the next day, please rerun the Anki program");
             }
 
             Helpers.Pause("to exit.");
-            return false;
+            return endOfGame;
         }
 
         /// <summary>
         /// display the cards contained in each box
         /// </summary>
-        private void DisplayBoxes()
+        private void DisplayBoxes(string subtitle, bool recapLastSession = false)
         {
             Helpers.ClearDisplay();
-            Helpers.Display("The Anki boxes:");
-            Helpers.Display($"1- GREEN BOX (to study in 2 days) : {_session.Boxes[Box.green].Count} cards", ConsoleColor.Green);
-            Helpers.Display($"2- ORANGE BOX (to study tomorrow) : {_session.Boxes[Box.orange].Count} cards", ConsoleColor.Yellow);
-            Helpers.Display($"3- RED BOX (to study today) :       {_session.Boxes[Box.red].Count} cards", ConsoleColor.Red);
-            Helpers.Display(new String('_', 20));
+            Helpers.Display(new String('-', 40));
+            Helpers.Display($"ANKI learning game - Day {_session.CurrentDay}");
+            Helpers.Display(subtitle);
+            Helpers.Display(new String('-', 40));
             Helpers.Newline();
+
+            Helpers.Display("Content of boxes:");
+
+            Helpers.Display($"1- GREEN BOX (to study in 2 days) : {_session.BoxCardsCount(Box.green)} cards", ConsoleColor.Green);
+            Helpers.Display($"2- ORANGE BOX (to study tomorrow) : {_session.BoxCardsCount(Box.orange)} cards", ConsoleColor.DarkYellow);
+            Helpers.Display($"3- RED BOX (to study today) :       {_session.BoxCardsCount(Box.red)} cards", ConsoleColor.Red);
+            if (!recapLastSession)
+            {
+                Helpers.Display(new String('-', 40));
+                Helpers.Display($"In your hand to study :         {_session.InHandCardsCount()} cards", ConsoleColor.Yellow);
+            }
+            Helpers.Display(new String('_', 40));
+            Helpers.Newline(2);
         }
 
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vC0xzWviZeyUEQm2OKWz8vNVicmIx5KGVHnow3EmZsPe9lO0rnB6ldd32AChzh1KHGw/9vqG2sY1Xjz6TZoJ9A==",
+  "dgSpecHash": "vJ170f5Y5xXzCRqVZJfj0CtsxZNlJxV5bS3zsLTh6Mn+aMPrKHW/ps/0xcro1QlpiGA0NiBai2Sq7RWeAhSffQ==",
   "success": true,
-  "projectFilePath": "C:\\sources\\PrivateRepo\\anki2\\Anki\\Anki.csproj",
+  "projectFilePath": "C:\\sources\\PrivateRepo\\Anki\\Anki.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

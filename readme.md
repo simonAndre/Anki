@@ -1,5 +1,23 @@
 # Anki
 
+## Execution models
+
+### with docker
+
++ prerequesites : docker engine
++ run `./anki_docker.sh`
+
+### directly with dotnet core
+
++ prerequesites:
+	+ [get de dotnetcore runtime 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+
++ run the console app
+
+
+
+## Ref specs
+
 Anki is a spaced repetition flashcard program. Anki (暗記) is the Japanese word for memorization.
 
 A student is proposed a **Deck** of cards, one face of the **card** contains a **question**, the other face the **answer**.
